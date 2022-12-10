@@ -6,5 +6,16 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'proyecto1-app';
+
+  public title:string;
+
+  curso:string;
+  profesor:string
+
+  constructor(){
+    this.title="Proyecto Frontend Grupo 17";
+    this.curso="Curso Programación web"
+    this.profesor="Jhonnyer Fernando Galindez"
+  }
+
 }
