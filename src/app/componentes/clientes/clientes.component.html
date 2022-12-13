@@ -1,4 +1,5 @@
-<div class="card text-bg-light mb-3">
+<button type="button" (click)="sethabilitar()" class="btn btn-primary my-3"> {{ habilitar == true ? "Ocultar": "Mostrar"}}</button>
+<div class="card text-bg-light mb-3" *ngIf="habilitar">
   <div *ngIf="clientes.length > 0">
     <div class="card-header">Clientes</div>
     <div class="card-body">
