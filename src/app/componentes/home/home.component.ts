@@ -7,12 +7,18 @@ import { Component } from '@angular/core';
 })
 export class HomeComponent {
   listaCursos:string[];
-
   habilitar:boolean;
+
+  title:string;
+  curso:string;
+  profesor:string
 
   constructor(){
     this.listaCursos=['Test Unitarios', 'WebFlux', 'Redux', 'Azure DevOps' ];
-    this.habilitar=true;
+    this.habilitar=false;
+    this.title="Proyecto Frontend Grupo 17";
+    this.curso="Curso Programación web"
+    this.profesor="Jhonnyer Fernando Galindez"
   }
 
 

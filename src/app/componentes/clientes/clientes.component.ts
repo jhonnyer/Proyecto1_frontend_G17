@@ -10,7 +10,6 @@ import { ClienteService } from 'src/app/servicios/cliente.service';
 export class ClientesComponent implements OnInit{
   cliente1:Cliente;
   clientes:Cliente[];
-  habilitar:boolean;
 
   constructor(private clienteService: ClienteService){
 
@@ -29,7 +28,6 @@ export class ClientesComponent implements OnInit{
     //   {id: 9, nombre: 'Luisa', apellido: 'Burbano', email:'luisa@gmail.com',createAt:'2022-12-09',foto:''},
     //   {id: 10, nombre: 'Sebastian', apellido: 'Burbano', email:'sebastian@gmail.com',createAt:'2022-12-09',foto:''},
     // ];
-    this.habilitar=true;
   }
   ngOnInit(){
     this.clienteService.getClientes().subscribe((clientes)=>{
@@ -40,7 +38,4 @@ export class ClientesComponent implements OnInit{
     });
   }
 
-  sethabilitar():void{
-    this.habilitar=(this.habilitar==true) ? false : true;
-  }
 }

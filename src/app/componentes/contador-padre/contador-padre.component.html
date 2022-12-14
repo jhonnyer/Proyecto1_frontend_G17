@@ -1,10 +1,15 @@
-<h2>{{contador}}</h2>
+<div class="container">
+  <h2>{{ contador }}</h2>
 
-<button (click)="incrementar()" class="btn btn-primary">Incrementar</button>
-<button (click)="decrementar()" class="btn btn-info">Decrementar</button>
+  <button (click)="incrementar()" class="btn btn-primary">Incrementar</button>
+  <button (click)="decrementar()" class="btn btn-info">Decrementar</button>
 
-<hr>
+  <hr />
 
-<app-contador-hijo [contador]="contador" (cambioContador)="contador = $event"></app-contador-hijo>
+  <app-contador-hijo
+    [contador]="contador"
+    (cambioContador)="contador = $event"
+  ></app-contador-hijo>
 
-<!-- <app-contador-hijo></app-contador-hijo> -->
+  <!-- <app-contador-hijo></app-contador-hijo> -->
+</div>
