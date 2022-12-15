@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Cliente } from 'src/app/modelos/cliente';
+import { ResponseCliente } from 'src/app/modelos/response-cliente';
 import { ClienteService } from 'src/app/servicios/cliente.service';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-clientes',
   templateUrl: './clientes.component.html',
@@ -10,6 +11,7 @@ import { ClienteService } from 'src/app/servicios/cliente.service';
 export class ClientesComponent implements OnInit{
   cliente1:Cliente;
   clientes:Cliente[];
+  responseCliente!:ResponseCliente;
 
   constructor(private clienteService: ClienteService){
 
@@ -36,6 +38,33 @@ export class ClientesComponent implements OnInit{
     }, err=>{
       console.log("Error: "+err);
     });
+  }
+
+  delete(cliente:Cliente){
+    Swal.fire({
+      title: 'Estas seguro?',
+      text: "Tu quieres revertir esto!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, eliminar!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.clienteService.delete(cliente.id).subscribe(
+          response=>{
+            console.log(response);
+            this.responseCliente=response;
+            this.clientes=this.clientes.filter(cli=> cli!==cliente)
+            Swal.fire(
+              'Eliminado!',
+              ''+this.responseCliente.mensaje,
+              'success'
+            )
+          }
+        )
+      }
+    })
   }
 
 }
