@@ -26,6 +26,19 @@
       <p>No hay datos para mostrar</p>
     </div>
   </div>
+  <hr>
+  <div>
+    <app-search-producto (search)="handleSearch($event)"></app-search-producto>
+    <div *ngIf="productos.length>0">
+        <ul *ngFor="let producto of productos">
+          <li >{{ producto.nombre}} </li>
+          <li >{{ producto.precio}} </li>
+          <li >{{ producto.createAt}} </li>
+        </ul>
+    </div>
+    <div *ngIf="productos.length == 0">
+        <p><span>No hay productos disponibles</span></p>
+    </div>
+  </div>
 </div>
-
 

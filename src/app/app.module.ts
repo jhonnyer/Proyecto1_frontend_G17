@@ -2,8 +2,16 @@ import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import  localeEs from '@angular/common/locales/es';
+
+//Angular Material
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatTableModule} from '@angular/material/table';
+import {MatInputModule} from '@angular/material/input';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatIconModule} from '@angular/material/icon';
+import {MatFormFieldModule} from '@angular/material/form-field';
 
 
 //Componentes
@@ -20,6 +28,10 @@ import { FormClienteComponent } from './formularios/form-cliente/form-cliente.co
 //Servicios
 import { ClienteService } from './servicios/cliente.service';
 import { registerLocaleData } from '@angular/common';
+import { SearchProductoComponent } from './componentes/search-producto/search-producto.component';
+import { LoginComponent } from './componentes/login/login.component';
+
+
 
 registerLocaleData(localeEs,'es');
 
@@ -41,13 +53,22 @@ const routes: Routes =[
     ContadorPadreComponent,
     ContadorHijoComponent,
     ContadorNietoComponent,
-    FormClienteComponent
+    FormClienteComponent,
+    SearchProductoComponent,
+    LoginComponent
   ],
   imports: [
     HttpClientModule,
     BrowserModule,
     RouterModule.forRoot(routes),
-    FormsModule
+    FormsModule,
+    BrowserAnimationsModule,
+    MatTableModule,
+    MatInputModule,
+    MatPaginatorModule,
+    MatIconModule,
+    MatFormFieldModule,
+    ReactiveFormsModule
   ],
   providers: [ClienteService, {provide: LOCALE_ID, useValue:'es'}],
   bootstrap: [AppComponent]
