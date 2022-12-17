@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ILogin } from 'src/app/modelos/ILogin';
 import { IResponseLogin } from 'src/app/modelos/IResponse';
-import { Observable } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,12 @@ export class LoginService {
 
   constructor(private http:HttpClient) { }
 
-  getLogin(usuario:ILogin):Observable<IResponseLogin>{
-    return this.http.post<IResponseLogin>(this.UrlLogin, usuario, {headers:this.httpHeaders});
+  getLogin(usuario:ILogin):Observable<any> {
+    return this.http.post<IResponseLogin>(this.UrlLogin, usuario, {headers:this.httpHeaders}).pipe(
+      catchError(e=>{
+        console.log(e);
+        return throwError(e);
+      })
+    );
   }
 }

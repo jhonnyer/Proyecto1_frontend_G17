@@ -1,5 +1,5 @@
 export interface IResponseLogin{
     usuario:string;
     token:string;
-    roles:[];
+    roles:string[];
 }

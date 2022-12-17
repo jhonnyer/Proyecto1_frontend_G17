@@ -1,3 +1,4 @@
+import { HttpHeaders } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Producto } from 'src/app/modelos/producto';
 import { ProductoService } from 'src/app/servicios/producto/producto.service';
@@ -18,6 +19,9 @@ export class HomeComponent {
   filtroValor:string;
   productos:Producto[];
 
+  httpHeaders:HttpHeaders=new HttpHeaders();
+  token=sessionStorage.getItem('token');
+
   constructor(private productoService:ProductoService){
     this.listaCursos=['Test Unitarios', 'WebFlux', 'Redux', 'Azure DevOps' ];
     this.habilitar=false;
@@ -26,6 +30,7 @@ export class HomeComponent {
     this.profesor="Jhonnyer Fernando Galindez"
     this.filtroValor="";
     this.productos=[];
+    this.httpHeaders=this.httpHeaders.append("Authorization", "Bearer "+this.token);
   }
 
 
@@ -37,7 +42,7 @@ export class HomeComponent {
   handleSearch(value:string){
     this.filtroValor=value;
     console.log(this.filtroValor);
-    this.productoService.getProducto(this.filtroValor).subscribe(
+    this.productoService.getProducto(this.filtroValor, this.httpHeaders).subscribe(
       producto=>{
         this.productos=producto;
         console.log(this.productos);

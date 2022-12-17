@@ -3,6 +3,7 @@ import { Cliente } from 'src/app/modelos/cliente';
 import { ClienteService } from 'src/app/servicios/cliente.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
+import { HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-form-cliente',
@@ -14,16 +15,20 @@ export class FormClienteComponent implements OnInit {
   cliente:Cliente;
   id!:string;
   errores!:string[];
+  httpHeaders:HttpHeaders=new HttpHeaders();
+  token=sessionStorage.getItem('token');
+
 
   constructor(private clienteService: ClienteService, private router: Router, private activatedRoute:ActivatedRoute){
     this.cliente=new Cliente(0,"","","","","");
+    this.httpHeaders=this.httpHeaders.append("Authorization", "Bearer "+this.token);
   }
   ngOnInit(){
     this.getCliente();
   }
 
   create(){
-    this.clienteService.create(this.cliente).subscribe(
+    this.clienteService.create(this.cliente, this.httpHeaders).subscribe(
       response=> {
         console.log(response);
         this.router.navigate(['/clientes']);
@@ -36,7 +41,7 @@ export class FormClienteComponent implements OnInit {
   }
 
   update(){
-    this.clienteService.udpdate(this.cliente).subscribe(
+    this.clienteService.udpdate(this.cliente, this.httpHeaders).subscribe(
       response=> {
         console.log(response);
         this.router.navigate(['/clientes']);
@@ -52,7 +57,7 @@ export class FormClienteComponent implements OnInit {
     this.activatedRoute.params.subscribe(
       params=>{
         this.id=params['id'];
-        this.clienteService.getCliente(this.id).subscribe(
+        this.clienteService.getCliente(this.id, this.httpHeaders).subscribe(
           cliente=>{
             this.cliente=cliente;
             console.log(this.cliente);

@@ -1,3 +1,4 @@
+import { HttpHeaders } from '@angular/common/http';
 import { Component, OnInit, ViewChild , AfterViewInit} from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -19,15 +20,20 @@ export class ClientesComponent implements OnInit, AfterViewInit{
   displayedColumns: string[] = ['id', 'nombre', 'apellido', 'email','createAt', 'acciones'];
   dataSource:MatTableDataSource<Cliente>;
 
+  httpHeaders: HttpHeaders = new HttpHeaders();
+  token = sessionStorage.getItem('token');
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   
+
+
   constructor(private clienteService: ClienteService){
 
     this.cliente1=new Cliente(1,'Jhonnyer','Galindez', 'jhonnyer@gmail.com','2022-12-09','');
     // this.cliente1={id: 1, nombre: 'Luis', apellido: 'Burbano', email:'luis@gmail.com',createAt:'2022-12-09',foto:''};
     this.clientes=[];
     this.dataSource=new MatTableDataSource<Cliente>([]);
-    
+    this.httpHeaders = this.httpHeaders.append('Authorization', 'Bearer ' + this.token);
   }
   ngAfterViewInit() {
     this.dataSource.paginator=this.paginator;
@@ -35,13 +41,12 @@ export class ClientesComponent implements OnInit, AfterViewInit{
 
   ngOnInit(){
     this.dataSource;
-    this.clienteService.getClientes().subscribe((clientes)=>{
+    console.log(this.token);
+    this.clienteService.getClientes(this.httpHeaders).subscribe(clientes=>{
       this.clientes=clientes;
       this.dataSource.data=this.clientes;
       console.log(this.clientes);
-    }, err=>{
-      console.log("Error: "+err);
-    });
+    })
   }
 
   applyFilter(event: Event) {
@@ -60,7 +65,7 @@ export class ClientesComponent implements OnInit, AfterViewInit{
       confirmButtonText: 'Si, eliminar!'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.clienteService.delete(cliente.id).subscribe(
+        this.clienteService.delete(cliente.id, this.httpHeaders).subscribe(
           response=>{
             console.log(response);
             this.responseCliente=response;

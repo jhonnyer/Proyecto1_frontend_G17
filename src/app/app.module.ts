@@ -31,17 +31,21 @@ import { registerLocaleData } from '@angular/common';
 import { SearchProductoComponent } from './componentes/search-producto/search-producto.component';
 import { LoginComponent } from './componentes/login/login.component';
 
+//Guardas
+import { LoginGuard } from './guardas/login.guard';
+import { HasRoleGuard } from './guardas/has-role.guard';
 
 
 registerLocaleData(localeEs,'es');
 
 const routes: Routes =[
   {path: '', redirectTo: '/home', pathMatch:'full'},
+  {path: 'login', component: LoginComponent},
   {path: 'home', component: HomeComponent },
-  {path: 'clientes', component: ClientesComponent },
-  {path: 'clientes/form', component: FormClienteComponent },
-  {path: 'clientes/form/:id', component: FormClienteComponent },
-  {path: 'contador', component: ContadorPadreComponent },
+  {path: 'clientes', component: ClientesComponent, canActivate:[LoginGuard, HasRoleGuard], data:{role:'ROLE_ADMIN'}},
+  {path: 'clientes/form', component: FormClienteComponent, canActivate:[LoginGuard, HasRoleGuard], data:{role:'ROLE_ADMIN'} },
+  {path: 'clientes/form/:id', component: FormClienteComponent, canActivate:[LoginGuard, HasRoleGuard],data:{role:'ROLE_ADMIN'}  },
+  {path: 'contador', component: ContadorPadreComponent, canActivate:[LoginGuard, HasRoleGuard], data:{role:'ROLE_ADMIN'} },
 ]
 @NgModule({
   declarations: [
@@ -70,7 +74,12 @@ const routes: Routes =[
     MatFormFieldModule,
     ReactiveFormsModule
   ],
-  providers: [ClienteService, {provide: LOCALE_ID, useValue:'es'}],
+  providers: [
+    ClienteService, 
+    {provide: LOCALE_ID, useValue:'es'},
+    LoginGuard,
+    HasRoleGuard
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -21,12 +21,12 @@ export class ClienteService {
     this.httpHeaders=new HttpHeaders({"Content-Type":"application/json"});
    }
 
-   getCliente(id:string):Observable<Cliente>{
-      return this.http.get<Cliente>(`${this.UrlClient+"findOne"}/${id}`);
+   getCliente(id:string, httpHeaders:HttpHeaders):Observable<Cliente>{
+      return this.http.get<Cliente>(`${this.UrlClient+"findOne"}/${id}`, {headers:httpHeaders});
    }
 
-   getClientes():Observable<Cliente[]>{
-    return this.http.get<Cliente[]>(this.UrlClient+"listar").pipe(
+   getClientes(httpHeaders:HttpHeaders):Observable<Cliente[]>{
+    return this.http.get<Cliente[]>(this.UrlClient+"listar", {headers:httpHeaders}).pipe(
       tap(response=>{
          console.log("TAB 1");
          let cliente=response as Cliente[];
@@ -58,8 +58,8 @@ export class ClienteService {
     );
    }
 
-   create(cliente:Cliente):Observable<ResponseCliente>{
-      return this.http.post<ResponseCliente>(this.UrlClient+"save", cliente, {headers:this.httpHeaders}).pipe(
+   create(cliente:Cliente, httpHeaders:HttpHeaders):Observable<ResponseCliente>{
+      return this.http.post<ResponseCliente>(this.UrlClient+"save", cliente, {headers:httpHeaders}).pipe(
          catchError(e=>{
             this.router.navigate(['/clientes']);
             console.log(e.error.mensaje);
@@ -69,11 +69,11 @@ export class ClienteService {
       );
    }
 
-   udpdate(cliente:Cliente):Observable<ResponseCliente>{
-    return this.http.put<ResponseCliente>(`${this.UrlClient+"save"}/${cliente.id}`, cliente, {headers:this.httpHeaders});
+   udpdate(cliente:Cliente, httpHeaders:HttpHeaders):Observable<ResponseCliente>{
+    return this.http.put<ResponseCliente>(`${this.UrlClient+"save"}/${cliente.id}`, cliente, {headers:httpHeaders});
    }
 
-   delete(id:number):Observable<ResponseCliente>{
-      return this.http.delete<ResponseCliente>(`${this.UrlClient+"delete"}/${id}`);
+   delete(id:number, httpHeaders:HttpHeaders):Observable<ResponseCliente>{
+      return this.http.delete<ResponseCliente>(`${this.UrlClient+"delete"}/${id}`, {headers:httpHeaders});
    }
 }

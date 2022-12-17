@@ -1,7 +1,19 @@
 <div class="container">
     <div class="center-div">
         <div>
-            <form class="form-group" [formGroup]="formLogin" (ngSubmit)="Login()"></form>
+            <div class="img"><img src="./assets/inicio_sesion.png"></div>
+            <p><strong>Por favor, ingrese sus datos para iniciar sesión</strong> </p>
+            <form class="form-group" [formGroup]="formLogin" (ngSubmit)="Login()">
+                <div class="form-outline mb-4">
+                    <input type="text" formControlName="username" placeholder="username" class="form-control">
+                </div>
+                <div class="form-outline mb-4">
+                    <input type="password" formControlName="password" placeholder="password" class="form-control">
+                </div>
+                <div class="form-outline mb-4">
+                    <button type="submit" class="btn btn-primary btn-block mb-4" [disabled]="formLogin.invalid">Iniciar sesión</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
