@@ -12,6 +12,8 @@ import {MatInputModule} from '@angular/material/input';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatIconModule} from '@angular/material/icon';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatSelectModule} from '@angular/material/select';
+import {MatButtonModule} from '@angular/material/button';
 
 
 //Componentes
@@ -34,19 +36,31 @@ import { LoginComponent } from './componentes/login/login.component';
 //Guardas
 import { LoginGuard } from './guardas/login.guard';
 import { HasRoleGuard } from './guardas/has-role.guard';
+import { HomeAdministradorComponent } from './moduloAdministrador/componentes/home-administrador/home-administrador.component';
+import { HomeVisitanteComponent } from './moduloVisitante/componentes/home-visitante/home-visitante.component';
+import { NavbarVisitanteComponent } from './moduloVisitante/componentes/navbar-visitante/navbar-visitante.component';
 
 
 registerLocaleData(localeEs,'es');
 
 const routes: Routes =[
-  {path: '', redirectTo: '/home', pathMatch:'full'},
+  {path: '', redirectTo: '/login', pathMatch:'full'},
   {path: 'login', component: LoginComponent},
-  {path: 'home', component: HomeComponent },
-  {path: 'clientes', component: ClientesComponent, canActivate:[LoginGuard, HasRoleGuard], data:{role:'ROLE_ADMIN'}},
-  {path: 'clientes/form', component: FormClienteComponent, canActivate:[LoginGuard, HasRoleGuard], data:{role:'ROLE_ADMIN'} },
-  {path: 'clientes/form/:id', component: FormClienteComponent, canActivate:[LoginGuard, HasRoleGuard],data:{role:'ROLE_ADMIN'}  },
-  {path: 'contador', component: ContadorPadreComponent, canActivate:[LoginGuard, HasRoleGuard], data:{role:'ROLE_ADMIN'} },
+  {path: 'administrador', loadChildren:() => 
+    import('../app/moduloAdministrador/administrador/administrador.module')
+    .then( x=> x.AdministradorModule), 
+    canActivate:[LoginGuard, HasRoleGuard],data:{role:'ROLE_ADMIN'}},
+
+  {path: 'visitante', loadChildren: ()=> 
+    import('../app/moduloVisitante/visitante/visitante/visitante.module')
+    .then(x=> x.VisitanteModule), 
+    canActivate:[LoginGuard, HasRoleGuard], data:{role:'ROLE_USER'}
+  },
+  {path:'**', component:LoginComponent}
 ]
+
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -59,7 +73,10 @@ const routes: Routes =[
     ContadorNietoComponent,
     FormClienteComponent,
     SearchProductoComponent,
-    LoginComponent
+    LoginComponent,
+    HomeAdministradorComponent,
+    HomeVisitanteComponent,
+    NavbarVisitanteComponent
   ],
   imports: [
     HttpClientModule,
@@ -72,7 +89,9 @@ const routes: Routes =[
     MatPaginatorModule,
     MatIconModule,
     MatFormFieldModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatSelectModule,
+    MatButtonModule
   ],
   providers: [
     ClienteService, 

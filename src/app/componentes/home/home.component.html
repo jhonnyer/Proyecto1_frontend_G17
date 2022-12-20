@@ -40,5 +40,22 @@
         <p><span>No hay productos disponibles</span></p>
     </div>
   </div>
+  <div class="container" *ngIf="productos.length>0">
+    <form [formGroup]="formProducto" (ngSubmit)="generarFactura()">
+      <mat-form-field>
+        <mat-label>Cliente</mat-label>
+        <input matInput autocomplete="off" formControlName="nombre">
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Selector Producto</mat-label>
+        <mat-select formControlName="precio">
+          <mat-option *ngFor="let producto of productos" [value]="producto.precio">
+            {{producto.nombre}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button type="submit" mat-raised-button color="primary" [disabled]="formProducto.invalid">Guardar</button>
+    </form>
+  </div>
 </div>
 

@@ -18,6 +18,8 @@ export class LoginComponent {
   authenticated:boolean;
   token:string;
   @Output('authenticated') isAuthenticated=new EventEmitter<boolean>();
+  roles:string[];
+  rol:string;
 
   constructor( formBuilder:FormBuilder , private loginService:LoginService, private router:Router){
     this.formLogin=formBuilder.group({
@@ -27,6 +29,8 @@ export class LoginComponent {
     this.usuario={username:"",password:""};
     this.authenticated=false;
     this.token="";
+    this.roles=[];
+    this.rol="";
   }
 
   Login(){
@@ -40,11 +44,27 @@ export class LoginComponent {
         this.authenticated=true;
         sessionStorage.setItem('authenticated',this.authenticated.toString());
         this.isAuthenticated.emit(this.authenticated);
-        this.router.navigate(['/home']);
+        this.roles=response.roles;
+        
+        this.roles.forEach(t=>{
+          switch(t){
+            case "ROLE_ADMIN":
+              this.router.navigate(['/administrador/gestion/clientes']);
+              break;
+            case "ROLE_USER":
+              this.router.navigate(['/visitante/user/contador']);
+              break;
+            default:
+              break;
+          }
+        });
+        
         },err=>{
           Swal.fire("Error", "Usuario o contraseña invalida", 'error');
           this.formLogin.reset();
           sessionStorage.setItem('authenticated',this.authenticated.toString());
         }
       )}
+
+    
 }

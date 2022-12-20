@@ -31,7 +31,7 @@ export class FormClienteComponent implements OnInit {
     this.clienteService.create(this.cliente, this.httpHeaders).subscribe(
       response=> {
         console.log(response);
-        this.router.navigate(['/clientes']);
+        this.router.navigate(['/administrador/gestion/clientes']);
         Swal.fire("Nuevo cliente", `${response.mensaje}`, 'success')
       },err=>{
         console.log("Error crear registro");
@@ -44,7 +44,7 @@ export class FormClienteComponent implements OnInit {
     this.clienteService.udpdate(this.cliente, this.httpHeaders).subscribe(
       response=> {
         console.log(response);
-        this.router.navigate(['/clientes']);
+        this.router.navigate(['/administrador/gestion/clientes']);
         Swal.fire("Cliente actualizado", `${response.mensaje}`, 'success')
       },err=>{
         console.log("Error crear registro");

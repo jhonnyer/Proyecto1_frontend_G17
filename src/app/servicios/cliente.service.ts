@@ -61,7 +61,7 @@ export class ClienteService {
    create(cliente:Cliente, httpHeaders:HttpHeaders):Observable<ResponseCliente>{
       return this.http.post<ResponseCliente>(this.UrlClient+"save", cliente, {headers:httpHeaders}).pipe(
          catchError(e=>{
-            this.router.navigate(['/clientes']);
+            this.router.navigate(['/administrador/gestion/clientes']);
             console.log(e.error.mensaje);
             Swal.fire("Error al crear un nuevo registro",""+e.error.mensaje, 'error');
             return throwError(e);

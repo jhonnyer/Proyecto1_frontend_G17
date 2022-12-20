@@ -13,6 +13,6 @@ export class ProductoService {
   constructor(private httpClient:HttpClient) { }
 
   getProducto(name:string, httpHeaders:HttpHeaders): Observable<Producto[]>{
-    return this.httpClient.get<Producto[]>(`${this.UrlString+"getProducto/"}${name}`, {headers:httpHeaders});
+    return this.httpClient.get<Producto[]>(`${this.UrlString+"findByNombre/"}${name}`, {headers:httpHeaders});
   }
 }

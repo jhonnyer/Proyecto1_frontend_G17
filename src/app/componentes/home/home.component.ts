@@ -1,5 +1,6 @@
 import { HttpHeaders } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Producto } from 'src/app/modelos/producto';
 import { ProductoService } from 'src/app/servicios/producto/producto.service';
 
@@ -8,7 +9,7 @@ import { ProductoService } from 'src/app/servicios/producto/producto.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit{
   listaCursos:string[];
   habilitar:boolean;
 
@@ -19,10 +20,12 @@ export class HomeComponent {
   filtroValor:string;
   productos:Producto[];
 
+  formProducto:FormGroup;
+
   httpHeaders:HttpHeaders=new HttpHeaders();
   token=sessionStorage.getItem('token');
 
-  constructor(private productoService:ProductoService){
+  constructor(private productoService:ProductoService, private formBuilder:FormBuilder){
     this.listaCursos=['Test Unitarios', 'WebFlux', 'Redux', 'Azure DevOps' ];
     this.habilitar=false;
     this.title="Proyecto Frontend Grupo 17";
@@ -31,6 +34,13 @@ export class HomeComponent {
     this.filtroValor="";
     this.productos=[];
     this.httpHeaders=this.httpHeaders.append("Authorization", "Bearer "+this.token);
+    this.formProducto=this.formBuilder.group({
+      nombre:['',Validators.required],
+      precio:[0,Validators.required]
+    })
+  }
+  ngOnInit(): void {
+    this.productos;
   }
 
 
@@ -48,6 +58,12 @@ export class HomeComponent {
         console.log(this.productos);
       }
     )
+  }
+
+  generarFactura(){
+    console.log(this.formProducto.value);
+    console.log(this.formProducto.value.nombre);
+    console.log(this.formProducto.value.precio);
   }
 
   // sethabilitar():void{
